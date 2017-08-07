@@ -1,0 +1,106 @@
+<!--
+@license
+Copyright (c) 2017 Neo
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
+
+<dom-module id="neocloud-combo">
+  <template>
+    <style>
+      paper-dropdown-menu {
+        width: 100%;
+      }
+
+      paper-item{
+        --paper-item-focused: {
+          background: var(--app-secondary-color);
+          color: white;
+        };
+      }
+
+    </style>
+    <iron-ajax
+            auto
+            id="getComboList"
+            url="{{url}}"
+            headers="{{headers}}"
+            params="{{params}}"
+            method="get"
+            handle-as="json"
+            last-response="{{dataComboList}}">
+    </iron-ajax>
+
+    <!--<div>test{{dataComboList.data}}</div>-->
+    <paper-dropdown-menu  id="combo" label="{{label}}" selected-item="{{selectedItem}}" selected-item-label="{{selected}}" no-Animations focused>
+      <paper-menu id="menu" class="dropdown-content" selected="{{value}}" attr-for-selected="value" >
+        <template is="dom-repeat" items="{{dataComboList.data}}" as="item">
+          <paper-item value="[[item.code]]">[[localize(item.name)]]</paper-item>
+        </template>
+      </paper-menu>
+    </paper-dropdown-menu>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'neocloud-combo',
+      behaviors: [
+        Polymer.AppLocalizeBehavior
+      ],
+
+      properties: {
+        id:{
+          type: String
+        },
+        label: {
+          type: String
+        },
+        url: {
+          type: String
+        },
+        headers:{
+          type: String
+        },
+        params:{
+          type: Object,
+          value: {}
+        },
+        value: {
+          type: String,
+          notify: true
+        },
+        required: {
+          type: Boolean,
+          observer: '_setRequired',
+          value: false
+        },
+      },
+
+      ready: function() {
+        this.useKeyIfMissing = true;
+        this.loadResources(this.resolveUrl('/api/v1/i18n/dashboard'));
+      },
+
+      refresh: function(){
+        this.$.getComboList.generateRequest();
+      },
+
+      validate: function(){
+        return this.$.combo.validate();
+      },
+
+      _setRequired: function(required) {
+        this.$.combo.toggleAttribute("required", required);
+      }
+
+    });
+
+
+  </script>
+</dom-module>
