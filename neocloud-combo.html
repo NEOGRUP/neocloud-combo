@@ -20,7 +20,7 @@ Copyright (c) 2017 Neo
 
       paper-item{
         --paper-item-focused: {
-          background: var(--app-secondary-color);
+          background: var(--app-secondary-color, #253855);
           color: white;
         };
       }
@@ -50,11 +50,13 @@ Copyright (c) 2017 Neo
   <script>
     Polymer({
       is: 'neocloud-combo',
+
       behaviors: [
         Polymer.AppLocalizeBehavior
       ],
 
       properties: {
+        language: String,
         id:{
           type: String
         },
@@ -62,6 +64,9 @@ Copyright (c) 2017 Neo
           type: String
         },
         url: {
+          type: String
+        },
+        urlTranslate:{
           type: String
         },
         headers:{
@@ -79,12 +84,12 @@ Copyright (c) 2017 Neo
           type: Boolean,
           observer: '_setRequired',
           value: false
-        },
+        }
       },
 
       ready: function() {
         this.useKeyIfMissing = true;
-        this.loadResources(this.resolveUrl('/api/v1/i18n/dashboard'));
+        this.loadResources(this.resolveUrl(this.urlTranslate));
       },
 
       refresh: function(){
@@ -98,7 +103,6 @@ Copyright (c) 2017 Neo
       _setRequired: function(required) {
         this.$.combo.toggleAttribute("required", required);
       }
-
     });
 
 
