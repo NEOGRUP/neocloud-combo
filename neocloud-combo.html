@@ -41,7 +41,7 @@ Copyright (c) 2017 Neo
     <paper-dropdown-menu  id="combo" label="{{label}}" selected-item="{{selectedItem}}" selected-item-label="{{selected}}" no-Animations focused>
       <paper-menu id="menu" class="dropdown-content" selected="{{value}}" attr-for-selected="value" >
         <template is="dom-repeat" items="{{dataComboList.data}}" as="item">
-          <paper-item value="[[item.code]]">[[localize(item.name)]]</paper-item>
+          <paper-item value="[[_getIdField(item)]]">[[_getDescField(item)]]</paper-item>
         </template>
       </paper-menu>
     </paper-dropdown-menu>
@@ -84,6 +84,14 @@ Copyright (c) 2017 Neo
           type: Boolean,
           observer: '_setRequired',
           value: false
+        },
+        idField: {
+          type: String,
+          value: 'code'
+        },
+        descField: {
+          type: String,
+          value: 'name'
         }
       },
 
@@ -102,7 +110,16 @@ Copyright (c) 2017 Neo
 
       _setRequired: function(required) {
         this.$.combo.toggleAttribute("required", required);
-      }
+      },
+
+      _getIdField:  function(item) {
+        return item[this.idField];
+      },
+
+      _getDescField:  function(item) {
+        return this.localize(item[this.descField]);
+      },
+
     });
 
 
