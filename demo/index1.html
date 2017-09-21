@@ -81,9 +81,39 @@ Copyright (c) 2017 Neo
   <body unresolved>
     <div class="vertical-section-container centered and writer to storage">
       <neocloud-combo
-              id="country"
               label="País"
               url="data/countries.json"
+              url-translate="/demo/data/translations.json"
+              value="ESP"
+              language="es">
+      </neocloud-combo>
+    </div>
+
+    <div class="vertical-section-container centered and writer to storage">
+      <neocloud-combo
+              label="Ciudad"
+              load-first
+              url="data/cities.json"
+              url-translate="/demo/data/translations.json"
+              language="es">
+      </neocloud-combo>
+    </div>
+
+    <div class="vertical-section-container centered and writer to storage">
+      <neocloud-combo
+              required
+              label="País"
+              url="data/countries.json"
+              url-translate="/demo/data/translations.json"
+              language="es">
+      </neocloud-combo>
+    </div>
+
+    <div class="vertical-section-container centered and writer to storage">
+      <neocloud-combo
+              required
+              label="Ciudad"
+              url="data/cities.json"
               url-translate="/demo/data/translations.json"
               language="es">
       </neocloud-combo>

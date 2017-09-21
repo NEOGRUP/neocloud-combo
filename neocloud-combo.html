@@ -34,6 +34,7 @@ Copyright (c) 2017 Neo
             params="{{params}}"
             method="get"
             handle-as="json"
+            on-response="_handleGetComboResponse"
             last-response="{{dataComboList}}">
     </iron-ajax>
 
@@ -78,6 +79,7 @@ Copyright (c) 2017 Neo
         },
         value: {
           type: String,
+          value: "",
           notify: true
         },
         required: {
@@ -92,6 +94,10 @@ Copyright (c) 2017 Neo
         descField: {
           type: String,
           value: 'name'
+        },
+        loadFirst: {
+          type: Boolean,
+          value: false
         }
       },
 
@@ -119,6 +125,16 @@ Copyright (c) 2017 Neo
       _getDescField:  function(item) {
         return this.localize(item[this.descField]);
       },
+
+      _handleGetComboResponse: function(e){
+        if ((this.dataComboList.data.length > 0) && (this.loadFirst) && (this.value == "")){
+          this.value = this.dataComboList.data[0].code;
+        }
+
+        if ((this.dataComboList.data.length == 1) && (this.required)){
+          this.value = this.dataComboList.data[0].code;
+        }
+      }
 
     });
 
