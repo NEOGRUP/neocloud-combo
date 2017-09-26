@@ -39,7 +39,7 @@ Copyright (c) 2017 Neo
     </iron-ajax>
 
     <!--<div>test{{dataComboList.data}}</div>-->
-    <paper-dropdown-menu  id="combo" label="{{label}}" selected-item="{{selectedItem}}" selected-item-label="{{selected}}" no-Animations focused>
+    <paper-dropdown-menu  id="combo" error-message="{{localize(requiredMessage)}}" label="{{label}}" selected-item="{{selectedItem}}" selected-item-label="{{selected}}" no-Animations focused>
       <paper-menu id="menu" class="dropdown-content" selected="{{value}}" attr-for-selected="value" >
         <template is="dom-repeat" items="{{dataComboList.data}}" as="item">
           <paper-item value="[[_getIdField(item)]]">[[_getDescField(item)]]</paper-item>
@@ -98,6 +98,9 @@ Copyright (c) 2017 Neo
         loadFirst: {
           type: Boolean,
           value: false
+        },
+        requiredMessage:{
+          type: String
         }
       },
 
@@ -127,12 +130,15 @@ Copyright (c) 2017 Neo
       },
 
       _handleGetComboResponse: function(e){
-        if ((this.dataComboList.data.length > 0) && (this.loadFirst) && (this.value == "")){
-          this.value = this.dataComboList.data[0].code;
-        }
 
-        if ((this.dataComboList.data.length == 1) && (this.required)){
-          this.value = this.dataComboList.data[0].code;
+        if (this.dataComboList){
+          if ((this.dataComboList.data.length > 0) && (this.loadFirst) && (this.value == "")){
+            this.value = this._getIdField(this.dataComboList.data[0]);
+          }
+
+          if ((this.dataComboList.data.length == 1) && (this.required)){
+            this.value = this._getIdField(this.dataComboList.data[0]);
+          }
         }
       }
 
