@@ -7,9 +7,10 @@ Copyright (c) 2017 Neo
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../neon-animation/web-animations.html">
 
 <dom-module id="neocloud-combo">
   <template>
@@ -40,97 +41,97 @@ Copyright (c) 2017 Neo
 
     <!--<div>test{{dataComboList.data}}</div>-->
     <paper-dropdown-menu  id="combo" error-message="{{localize(requiredMessage)}}" label="{{label}}" selected-item="{{selectedItem}}" selected-item-label="{{selected}}" no-Animations focused>
-      <paper-menu id="menu" class="dropdown-content" selected="{{value}}" attr-for-selected="value" >
+      <paper-listbox id="menu" slot="dropdown-content" selected="{{value}}" attr-for-selected="value" >
         <template is="dom-repeat" items="{{dataComboList.data}}" as="item">
           <paper-item value="[[_getIdField(item)]]">[[_getDescField(item)]]</paper-item>
         </template>
-      </paper-menu>
+      </paper-listbox>
     </paper-dropdown-menu>
   </template>
 
   <script>
-    Polymer({
-      is: 'neocloud-combo',
+    class NeocloudCombo extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
+      static get is() {
+        return 'neocloud-combo';
+      }
 
-      behaviors: [
-        Polymer.AppLocalizeBehavior
-      ],
-
-      properties: {
-        language: String,
-        id:{
-          type: String
-        },
-        label: {
-          type: String
-        },
-        url: {
-          type: String
-        },
-        urlTranslate:{
-          type: String
-        },
-        headers:{
-          type: String
-        },
-        params:{
-          type: Object,
-          value: {}
-        },
-        value: {
-          type: String,
-          value: "",
-          notify: true
-        },
-        required: {
-          type: Boolean,
-          observer: '_setRequired',
-          value: false
-        },
-        idField: {
-          type: String,
-          value: 'code'
-        },
-        descField: {
-          type: String,
-          value: 'name'
-        },
-        loadFirst: {
-          type: Boolean,
-          value: false
-        },
-        requiredMessage:{
-          type: String
+      static get properties() {
+        return {
+          language: String,
+          id:{
+            type: String
+          },
+          label: {
+            type: String
+          },
+          url: {
+            type: String
+          },
+          urlTranslate:{
+            type: String
+          },
+          headers:{
+            type: String
+          },
+          params:{
+            type: Object,
+            value: {}
+          },
+          value: {
+            type: String,
+            value: "",
+            notify: true
+          },
+          required: {
+            type: Boolean,
+            observer: '_setRequired',
+            value: false
+          },
+          idField: {
+            type: String,
+            value: 'code'
+          },
+          descField: {
+            type: String,
+            value: 'name'
+          },
+          loadFirst: {
+            type: Boolean,
+            value: false
+          },
+          requiredMessage:{
+            type: String
+          }
         }
-      },
+      }
 
-      ready: function() {
+      connectedCallback() {
+        super.connectedCallback();
         this.useKeyIfMissing = true;
         this.loadResources(this.resolveUrl(this.urlTranslate));
-      },
+      }
 
-      refresh: function(){
+      refresh(){
         this.$.getComboList.generateRequest();
-      },
+      }
 
-      validate: function(){
+      validate(){
         return this.$.combo.validate();
-      },
+      }
 
-      _setRequired: function(required) {
+      _setRequired(required) {
         this.$.combo.toggleAttribute("required", required);
-      },
+      }
 
-      _getIdField:  function(item) {
+      _getIdField(item) {
         return item[this.idField];
-      },
+      }
 
-      _getDescField:  function(item) {
+      _getDescField(item) {
         return this.localize(item[this.descField]);
-      },
+      }
 
-      _handleGetComboResponse: function(e){
-
+      _handleGetComboResponse(e){
         if (this.dataComboList){
           if ((this.dataComboList.data.length > 0) && (this.loadFirst) && (this.value == "")){
             this.value = this._getIdField(this.dataComboList.data[0]);
@@ -141,9 +142,7 @@ Copyright (c) 2017 Neo
           }
         }
       }
-
-    });
-
-
+    }
+    window.customElements.define(NeocloudCombo.is, NeocloudCombo);
   </script>
 </dom-module>

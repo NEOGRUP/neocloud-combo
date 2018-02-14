@@ -1,11 +1,14 @@
 {
   "en":{
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendar"
+    "DASHBOARD_DATEPICKER_CALENDAR": "Calendar",
+    "Alemania": "Alemania1"
   },
   "es": {
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendario"
+    "DASHBOARD_DATEPICKER_CALENDAR": "Calendario",
+    "Alemania": "Alemania2"
   },
   "ca":{
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendari"
+    "DASHBOARD_DATEPICKER_CALENDAR": "Calendari",
+    "Alemania": "Alemania3"
   }
 }

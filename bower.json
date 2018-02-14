@@ -1,6 +1,6 @@
 {
   "name": "neocloud-combo",
-  "version": "0.1.7",
+  "version": "1.0.1",
   "description": "Polymer component for display a list of items.",
   "authors": [
     "edgar.piera@neogrup.com"
@@ -19,17 +19,18 @@
   "homepage": "",
   "ignore": [],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.1.0",
-    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
-    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.5.0",
-    "paper-menu": "PolymerElements/paper-menu#^1.2.2",
-    "paper-item": "PolymerElements/paper-item#^1.2.1",
-    "app-localize-behavior": "PolymerElements/app-localize-behavior#^0.10.1"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^2.1.0",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.0.2",
+    "paper-item": "PolymerElements/paper-item#^2.0.0",
+    "app-localize-behavior": "PolymerElements/app-localize-behavior#^2.0.1",
+    "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
+    "web-animations-js": "^2.3.1"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^4.0.0",
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
+    "web-component-tester": "^6.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   }
 }
