@@ -1,14 +1,20 @@
 {
   "en":{
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendar",
-    "Alemania": "Alemania1"
+    "Alemania": "Alemania EN",
+    "España": "España EN",
+    "Estados Unidos": "Estados Unidos EN",
+    "Francia": "Francia EN"
   },
   "es": {
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendario",
-    "Alemania": "Alemania2"
+    "Alemania": "Alemania ES",
+    "España": "España ES",
+    "Estados Unidos": "Estados Unidos ES",
+    "Francia": "Francia ES"
   },
   "ca":{
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendari",
-    "Alemania": "Alemania3"
+    "Alemania": "Alemania CA",
+    "España": "España CA",
+    "Estados Unidos": "Estados Unidos CA",
+    "Francia": "Francia CA"
   }
 }

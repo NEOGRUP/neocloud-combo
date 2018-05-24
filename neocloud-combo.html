@@ -3,9 +3,8 @@
 Copyright (c) 2017 Neo
 -->
 
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
-
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -20,33 +19,29 @@ Copyright (c) 2017 Neo
       }
 
       paper-item{
+        cursor: pointer;
+        --paper-item-selected: {
+          background-color: var(--app-secondary-color, #253855);
+          color: white;
+        };
         --paper-item-focused: {
-          background: var(--app-secondary-color, #253855);
+          background-color: var(--app-secondary-color, #253855);
           color: white;
         };
       }
-
     </style>
-    <iron-ajax
-            auto
-            id="getComboList"
-            url="{{url}}"
-            headers="{{headers}}"
-            params="{{params}}"
-            method="get"
-            handle-as="json"
-            on-response="_handleGetComboResponse"
-            last-response="{{dataComboList}}">
-    </iron-ajax>
 
-    <!--<div>test{{dataComboList.data}}</div>-->
+  
     <paper-dropdown-menu  id="combo" error-message="{{localize(requiredMessage)}}" label="{{label}}" selected-item="{{selectedItem}}" selected-item-label="{{selected}}" no-Animations focused>
       <paper-listbox id="menu" slot="dropdown-content" selected="{{value}}" attr-for-selected="value" >
-        <template is="dom-repeat" items="{{dataComboList.data}}" as="item">
+          <template is="dom-if" if="{{translationsLoaded}}">
+        <template is="dom-repeat" items="{{comboListData.data}}" as="item">
           <paper-item value="[[_getIdField(item)]]">[[_getDescField(item)]]</paper-item>
         </template>
+      </template>
       </paper-listbox>
     </paper-dropdown-menu>
+    
   </template>
 
   <script>
@@ -58,24 +53,22 @@ Copyright (c) 2017 Neo
       static get properties() {
         return {
           language: String,
+          selectedItem: {
+            type: Object,
+          },
+          comboListData: {
+            type: Object,
+            value: {},
+            observer: '_setComboListData'
+          },
           id:{
             type: String
           },
           label: {
             type: String
           },
-          url: {
-            type: String
-          },
           urlTranslate:{
             type: String
-          },
-          headers:{
-            type: String
-          },
-          params:{
-            type: Object,
-            value: {}
           },
           value: {
             type: String,
@@ -101,6 +94,10 @@ Copyright (c) 2017 Neo
           },
           requiredMessage:{
             type: String
+          },
+          translationsLoaded: {
+            type: Boolean,
+            value: false
           }
         }
       }
@@ -108,11 +105,28 @@ Copyright (c) 2017 Neo
       connectedCallback() {
         super.connectedCallback();
         this.useKeyIfMissing = true;
+
+        this.addEventListener('app-localize-resources-loaded', function(e){
+          this.translationsLoaded = true;
+        }.bind(this));
         this.loadResources(this.resolveUrl(this.urlTranslate));
       }
 
-      refresh(){
-        this.$.getComboList.generateRequest();
+      _setComboListData(){
+        if (this.comboListData.data){
+          if ((this.comboListData.data.length > 0) && (this.loadFirst) && (this.value == "")){
+            this.value = this._getIdField(this.comboListData.data[0]);
+            // this.dispatchEvent(new CustomEvent('loaded-first', {detail: this.comboListData.data[0], bbbles: true, composed: true }));
+          }
+
+          if ((this.comboListData.data.length == 1) && (this.required)){
+            this.value = this._getIdField(this.comboListData.data[0]);
+          }
+        }
+      }
+
+      selectByIndex(index){
+        this.value = this._getIdField(this.comboListData.data[0]);
       }
 
       validate(){
@@ -130,18 +144,7 @@ Copyright (c) 2017 Neo
       _getDescField(item) {
         return this.localize(item[this.descField]);
       }
-
-      _handleGetComboResponse(e){
-        if (this.dataComboList){
-          if ((this.dataComboList.data.length > 0) && (this.loadFirst) && (this.value == "")){
-            this.value = this._getIdField(this.dataComboList.data[0]);
-          }
-
-          if ((this.dataComboList.data.length == 1) && (this.required)){
-            this.value = this._getIdField(this.dataComboList.data[0]);
-          }
-        }
-      }
+  
     }
     window.customElements.define(NeocloudCombo.is, NeocloudCombo);
   </script>
