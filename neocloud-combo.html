@@ -113,6 +113,7 @@ Copyright (c) 2017 Neo
       }
 
       _setComboListData(){
+        if (!this.comboListData) return;
         if (this.comboListData.data){
           if ((this.comboListData.data.length > 0) && (this.loadFirst) && (this.value == "")){
             this.value = this._getIdField(this.comboListData.data[0]);
