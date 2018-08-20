@@ -1,6 +1,6 @@
 {
   "name": "neocloud-combo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Polymer component for display a list of items.",
   "authors": [
     "edgar.piera@neogrup.com"
